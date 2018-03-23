@@ -1,0 +1,15 @@
+language: java
+jdk:
+- oraclejdk8
+env:
+  global:
+  - AWS_ACCESS_KEY_ID=AKIAIJPHX7NGABEIUPFQ
+  - secure: b21OadubVBuikawRky8XgIqF/7pF0q/aOLSGdvOTd6kzgoN7cKXNbMaiNThzqZ+1S4XQTVJJew+PBCaCO1KHKAsFBX1NsAsWpDDJ1QlBt/FJw9etYh5WdK9A/VVo3RGfMHxETWFKUyC4aTGQ5Y3K9VMiABI1Y03QSVvOBZIpGbR3j8Pu1wcUNQZ+QvfFwiQjgX3RA2RBvPCn/UmSl5bDs7B3zptfMCvWEYvfWbZQ/e9e6g21RqYIuWt1SA9PKwfT5zEYvjiWPKANgXK2L1ClQpEZhvu1zCLwuAcS7WEsp1xRlEyunAwyjcY4BfrJPjlPPDwkQJXTnAiT+Sn8GV791jp4O8gGwXQ5jCFaTMwDYpFn7NmKyLer8aJ1J0foxCSnRhm6HVFo3BMheARGgmiZLIV/vHJueQqs0SMpLiTBkHTF+jyxV6SQQl30W6EKpFUPUIr05m6FAqWI7wOSSAlpNeZBYMYZ5zIhqUHFbVdRVpn/AtxisvGOkvtB48F2qNdZHHkqCJTAaFDJNBexjhAkCGGs+Zk8DJP7AplUTpEKkwaOX3B50Yau5O31tNAPAnyG3biA/vQaUGac1XLF3p+EYkyzfsqQbnMH275TrFGYlm6/ASVlEQ+q0BPYByjnkohVxoZ/xg8Jv4zz22KQQtunVmfe4zjDaMZMe2Ja5ZQ15+o=
+before_install:
+- pip install --user awscli
+- export PATH=$PATH:$HOME/.local/bin
+install:
+- gradle buildZip
+script:
+- gradle buildZip
+- "./upload.sh"
