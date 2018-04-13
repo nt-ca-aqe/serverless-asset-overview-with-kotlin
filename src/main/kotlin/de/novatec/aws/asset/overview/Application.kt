@@ -89,13 +89,15 @@ class Application {
 
     fun handler(): String {
         // TODO: select project via parameter instead of randomly
-        val project = getProject()
+        val project = getProject(null)
         return ProjectRenderer().html(project)
     }
 
-    private fun getProject(): Project {
-        val random = Random()
-        return projects[random.nextInt(projects.size)]
+    private fun getProject(id: String?): Project {
+        if (id == null) {
+            return projects[Random().nextInt(projects.size)]
+        }
+        return projects.single { it.id.equals(id, true) }
     }
 
 }
