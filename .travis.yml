@@ -9,7 +9,7 @@ before_install:
 - pip install --user awscli
 - export PATH=$PATH:$HOME/.local/bin
 install:
-- gradle buildZip
+- ./gradlew buildZip
 script:
-- gradle buildZip
+- ./gradlew buildZip
 - "./upload.sh"
