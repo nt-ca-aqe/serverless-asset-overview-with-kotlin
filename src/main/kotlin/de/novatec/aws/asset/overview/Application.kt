@@ -1,118 +1,101 @@
 package de.novatec.aws.asset.overview
 
+import de.novatec.aws.asset.overview.Project.Artifact
+import de.novatec.aws.asset.overview.Project.Service.*
+import java.util.*
 
-class Application{
+class Application {
+
+    companion object {
+        val LIVING_DOC = Project(
+                id = "livingdoc",
+                name = "LivingDoc",
+                organization = "LivingDoc",
+                repository = "livingdoc",
+                documentation = null,
+                branches = listOf("master"),
+                services = setOf(TRAVIS_CI, BETTER_CODE_HUB),
+                artifacts = listOf()
+
+        )
+        val PACT_LIBRARIES = Project(
+                id = "pactlibraries",
+                name = "Pact Libraries",
+                organization = "nt-ca-aqe",
+                repository = "pact",
+                documentation = null,
+                branches = listOf("master"),
+                services = setOf(TRAVIS_CI),
+                artifacts = listOf(
+                        Artifact("info.novatec.testit", "pact-provider"),
+                        Artifact("info.novatec.testit", "pact-provider-junit5")
+                )
+        )
+        val RESULT_REPOSITORY = Project(
+                id = "resultrepository",
+                name = "ResultRepository",
+                organization = "testIT-ResultRepository",
+                repository = "resultrepository-core",
+                documentation = null,
+                branches = listOf("master"),
+                services = setOf(TRAVIS_CI, BETTER_CODE_HUB),
+                artifacts = listOf()
+        )
+        val TEST_UTILS = Project(
+                id = "testutils",
+                name = "TestUtils",
+                organization = "nt-ca-aqe",
+                repository = "testit-testutils",
+                documentation = null,
+                branches = listOf("master"),
+                services = setOf(TRAVIS_CI, CODECOV, BETTER_CODE_HUB),
+                artifacts = listOf(
+                        Artifact("info.novatec.testit", "testutils-logrecorder"),
+                        Artifact("info.novatec.testit", "testutils-logrecorder-logback"),
+                        Artifact("info.novatec.testit", "testutils-logsuppressor-logback"),
+                        Artifact("info.novatec.testit", "testutils-mockito")
+                )
+        )
+        val WEB_TESTER = Project(
+                id = "webtester",
+                name = "WebTester",
+                organization = "testIT-WebTester",
+                repository = "webtester2-core",
+                documentation = "https://oss.sonatype.org/service/local/artifact/maven/redirect?r=releases&g=info.novatec.testit&a=webtester-documentation&v=LATEST&e=html",
+                branches = listOf(
+                        "master",
+                        "releases/2.5.x",
+                        "releases/2.4.x",
+                        "releases/2.3.x",
+                        "releases/2.2.x",
+                        "releases/2.1.x",
+                        "releases/2.0.x"
+                ),
+                services = setOf(TRAVIS_CI, CODECOV, BETTER_CODE_HUB),
+                artifacts = listOf(
+                        Artifact("info.novatec.testit", "webtester-core"),
+                        Artifact("info.novatec.testit", "webtester-kotlin"),
+                        Artifact("info.novatec.testit", "webtester-support-assertj3"),
+                        Artifact("info.novatec.testit", "webtester-support-hamcrest"),
+                        Artifact("info.novatec.testit", "webtester-support-junit4"),
+                        Artifact("info.novatec.testit", "webtester-support-junit5"),
+                        Artifact("info.novatec.testit", "webtester-support-spring4")
+                )
+
+        )
+    }
+
+    private val projects = listOf(LIVING_DOC, PACT_LIBRARIES, RESULT_REPOSITORY, TEST_UTILS, WEB_TESTER)
 
     fun handler(): String {
-
-       val html =  "<html>"+
-                "<head>"+
-                "    <title>Overview of Pact Libraries</title>"+
-                "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />"+
-                "    <link href=\"../static/css/style.css\" rel=\"stylesheet\" media=\"screen\" />"+
-                "</head>"+
-                "<body>"+
-                ""+
-                "<h1>Pact Libraries</h1>"+
-                ""+
-                "<hr />"+
-                ""+
-                "<!-- GitHub Repository Link -->"+
-                "<a target=\"_blank\" href=\"https://github.com/nt-ca-aqe/pact\">"+
-                "    <img src=\"https://img.shields.io/badge/repository-GitHub-blue.svg\" />"+
-                "</a>"+
-                "<!-- Documentation Link -->"+
-                ""+
-                "<!-- GitHub Release Badge -->"+
-                "<a target=\"_blank\" href=\"https://github.com/nt-ca-aqe/pact/releases\">"+
-                "    <img src=\"https://badge.fury.io/gh/nt-ca-aqe%2Fpact.svg\" />"+
-                "</a>"+
-                ""+
-                "<hr />"+
-                ""+
-                "<div>"+
-                "    <h2>Continuous Integration</h2>"+
-                "    <p>The following table shows all of the project's maintained branches / versions with build status and quality metrics.</p>"+
-                "    <table>"+
-                "        <tr>"+
-                "            <th>Branch</th>"+
-                "            <th>Build</th>"+
-                "            "+
-                "            "+
-                "        </tr>"+
-                "        <tr>"+
-                "            <td>master</td>"+
-                "            <td>"+
-                "                <!-- Travis CI Build Badge -->"+
-                "                <a target=\"_blank\" href=\"https://travis-ci.org/nt-ca-aqe/pact/branches\">"+
-                "                    <img src=\"https://travis-ci.org/nt-ca-aqe/pact.svg?branch=master\" />"+
-                "                </a>"+
-                "            </td>"+
-                "            "+
-                "            "+
-                "        </tr>"+
-                "    </table>"+
-                "</div>"+
-                ""+
-                "<div>"+
-                "    <h2>Artifacts</h2>"+
-                "    <p>The following table shows all of the project's available modules.</p>"+
-                "    <table>"+
-                "        <tr>"+
-                "            <th>Artifact</th>"+
-                "            <th>Maven Central</th>"+
-                "            <th>JavaDoc</th>"+
-                "            <th>Dependencies</th>"+
-                "        </tr>"+
-                "        <tr>"+
-                "            <td>pact-provider</td>"+
-                "            <td>"+
-                "                <!-- Maven Central Version Badge -->"+
-                "                <a target=\"_blank\" href=\"https://maven-badges.herokuapp.com/maven-central/info.novatec.testit/pact-provider\">"+
-                "                    <img src=\"https://maven-badges.herokuapp.com/maven-central/info.novatec.testit/pact-provider/badge.svg\" />"+
-                "                </a>"+
-                "            </td>"+
-                "            <td>"+
-                "                <!-- JavaDoc Version Badge -->"+
-                "                <a target=\"_blank\" href=\"https://www.javadoc.io/doc/info.novatec.testit/pact-provider\">"+
-                "                    <img src=\"https://www.javadoc.io/badge/info.novatec.testit/pact-provider.svg\" />"+
-                "                </a>"+
-                "            </td>"+
-                "            <td>"+
-                "                <!-- Dependency Analyse Badge -->"+
-                "                <a target=\"_blank\" href=\"https://www.versioneye.com/java/info.novatec.testit:pact-provider/\">"+
-                "                    <img src=\"https://www.versioneye.com/java/info.novatec.testit:pact-provider/badge?style=flat\" />"+
-                "                </a>"+
-                "            </td>"+
-                "        </tr>"+
-                "        <tr>"+
-                "            <td>pact-provider-junit5</td>"+
-                "            <td>"+
-                "                <!-- Maven Central Version Badge -->"+
-                "                <a target=\"_blank\" href=\"https://maven-badges.herokuapp.com/maven-central/info.novatec.testit/pact-provider-junit5\">"+
-                "                    <img src=\"https://maven-badges.herokuapp.com/maven-central/info.novatec.testit/pact-provider-junit5/badge.svg\" />"+
-                "                </a>"+
-                "            </td>"+
-                "            <td>"+
-                "                <!-- JavaDoc Version Badge -->"+
-                "                <a target=\"_blank\" href=\"https://www.javadoc.io/doc/info.novatec.testit/pact-provider-junit5\">"+
-                "                    <img src=\"https://www.javadoc.io/badge/info.novatec.testit/pact-provider-junit5.svg\" />"+
-                "                </a>"+
-                "            </td>"+
-                "            <td>"+
-                "                <!-- Dependency Analyse Badge -->"+
-                "                <a target=\"_blank\" href=\"https://www.versioneye.com/java/info.novatec.testit:pact-provider-junit5/\">"+
-                "                    <img src=\"https://www.versioneye.com/java/info.novatec.testit:pact-provider-junit5/badge?style=flat\" />"+
-                "                </a>"+
-                "            </td>"+
-                "        </tr>"+
-                "    </table>"+
-                "</div>"+
-                ""+
-                "</body>"+
-                "</html>";
-
-        return html
-
+        // TODO: select project via parameter instead of randomly
+        val project = getProject()
+        return ProjectRenderer().html(project)
     }
+
+    private fun getProject(): Project {
+        val random = Random()
+        return projects[random.nextInt(projects.size)]
+    }
+
 }
