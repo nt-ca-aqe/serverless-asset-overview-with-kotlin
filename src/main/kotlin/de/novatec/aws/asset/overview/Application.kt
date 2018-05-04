@@ -89,10 +89,9 @@ class Application {
 
     fun handler(id: String): String {
         // TODO: select project via parameter instead of randomly
-        // val project = getProject(null)
-        //return ProjectRenderer().html(project)
-        return id;
-    }
+            val project = getProject(id)
+            return ProjectRenderer().html(project)
+        }
 
     private fun getProject(id: String?): Project {
         if (id == null) {
