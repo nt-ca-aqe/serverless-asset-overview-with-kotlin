@@ -87,7 +87,7 @@ class Application {
 
     private val projects = listOf(LIVING_DOC, PACT_LIBRARIES, RESULT_REPOSITORY, TEST_UTILS, WEB_TESTER)
 
-    fun handler(id: String?): String {
+    fun handler(id: String): String {
         // TODO: select project via parameter instead of randomly
         // val project = getProject(null)
         //return ProjectRenderer().html(project)
